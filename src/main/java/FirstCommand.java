@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -49,6 +50,7 @@ public class FirstCommand extends BotCommand {
         answer.setText(messageTextBuilder.toString());
         answer.setReplyMarkup(getKeyboard());
 
+
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {
@@ -61,12 +63,18 @@ public class FirstCommand extends BotCommand {
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         keyboardFirstRow.add("echo");
-        keyboardFirstRow.add("double echo");
+        keyboardFirstRow.add("double1 echo");
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add("Hello!");
         keyboardSecondRow.add('\u23F0' + "UNIX time" + (System.currentTimeMillis())/1000);
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
+    }
+
+    private  static ReplyKeyboardRemove deleteKeybord(){
+
+        return null;
     }
 }
