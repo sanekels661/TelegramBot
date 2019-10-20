@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.runtime.regexp.RegExp;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -10,89 +12,46 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class InlineKeyboardMy extends BotCommand {
-    /**
-     * Construct a command
-     *
-     * @param commandIdentifier the unique identifier of this command (e.g. the command string to
-     *                          enter into chat)
-     * @param description       the description of this command
-     */
+
     private static final String commandIdentifier = "inline";
     private static final String description = "yes, sir!";
+    private String[] catchWords = {"YouTube", "GitHub", "share", "reply"};
 
     public InlineKeyboardMy() {
         super(commandIdentifier, description);
     }
 
-    private ReplyKeyboard getInlineKeyboardMarkup(int i) {
-//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-//        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-//        List<InlineKeyboardButton> keyboardFirstRow = new ArrayList<>();
-//
-//        keyboardFirstRow.add(new InlineKeyboardButton("open YouTube").setUrl("https://www.youtube.com/watch?v=pdLCS1eIN8k"));
-//        keyboardFirstRow.add(new InlineKeyboardButton("open VK").setUrl("vk.com"));
-//        keyboard.add(keyboardFirstRow);
-//
-//        List<InlineKeyboardButton> keyboardSecondRow = new ArrayList<>();
-//        keyboardFirstRow.add(new InlineKeyboardButton("share").setSwitchInlineQuery("it is OMG bot"));
-//        keyboardFirstRow.add(new InlineKeyboardButton("hello again").setCallbackData("/hello"));
-//        keyboard.add(keyboardSecondRow);
+    private ReplyKeyboard getInlineKeyboardMarkup(String[] args) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         List<InlineKeyboardButton> keyboardFirstRow = new ArrayList<>();
-        keyboardFirstRow.add(new InlineKeyboardButton("open YouTube").setUrl("https://www.youtube.com/watch?v=pdLCS1eIN8k"));
-        List<InlineKeyboardButton> keyboardSecondRow = new ArrayList<>();
-        keyboardSecondRow.add(new InlineKeyboardButton("open VK").setUrl("vk.com"));
-        List<InlineKeyboardButton> keyboardThirdRow = new ArrayList<>();
-        keyboardThirdRow.add(new InlineKeyboardButton("share").setSwitchInlineQuery("it is OMG bot"));
-        List<InlineKeyboardButton> keyboardFourthRow = new ArrayList<>();
-        keyboardFourthRow.add(new InlineKeyboardButton("hello again").setCallbackData("/hello"));
+        if (args != null && args[0].contains(catchWords[0])) {
+            keyboardFirstRow.add(new InlineKeyboardButton("open YouTube cool video)").setUrl("https://www.youtube.com/watch?v=pdLCS1eIN8k"));
+        }
+        if (args != null && args[0].contains(catchWords[1])) {
+            keyboardFirstRow.add(new InlineKeyboardButton("open GitHub telegramBot repository").setUrl("https://github.com/sanekels661/TelegramBot"));
+        }
+        if (args != null && args[0].contains(catchWords[2])) {
+            keyboardFirstRow.add(new InlineKeyboardButton("share to friend").setSwitchInlineQuery("it is OMG bot"));
+        }
+        if (args != null && args[0].contains(catchWords[3])) {
+            keyboardFirstRow.add(new InlineKeyboardButton("hello command").setCallbackData("/hello"));
+        }
         keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardThirdRow);
-        keyboard.add(keyboardFourthRow);
-        inlineKeyboardMarkup.setKeyboard(keyboard.subList(i + 1, i + 1).subList(1, 1));
+        inlineKeyboardMarkup.setKeyboard(keyboard);
         return inlineKeyboardMarkup;
     }
 
-    private static List<List<InlineKeyboardButton>> inlineButtonsList() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> keyboardFirstRow = new ArrayList<>();
-        keyboardFirstRow.add(new InlineKeyboardButton("open YouTube").setUrl("https://www.youtube.com/watch?v=pdLCS1eIN8k"));
-        List<InlineKeyboardButton> keyboardSecondRow = new ArrayList<>();
-        keyboardSecondRow.add(new InlineKeyboardButton("open VK").setUrl("vk.com"));
-        List<InlineKeyboardButton> keyboardThirdRow = new ArrayList<>();
-        keyboardThirdRow.add(new InlineKeyboardButton("share").setSwitchInlineQuery("it is OMG bot"));
-        List<InlineKeyboardButton> keyboardFourthRow = new ArrayList<>();
-        keyboardFourthRow.add(new InlineKeyboardButton("hello again").setCallbackData("/hello"));
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardThirdRow);
-        keyboard.add(keyboardFourthRow);
-        inlineKeyboardMarkup.setKeyboard(keyboard.subList(0, 0).subList(0, 0));
-        return keyboard;
-    }
-
-    String[] catchWords = {"YouTube", "GitHub", "share", "reply"};
-
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-
-        int buttonNumber = 0;
-        for (int i = 0; i < 4; i++) {
-            if (arguments != null && arguments[0].contains(catchWords[i])) {
-
-                buttonNumber = i;
-            }
-        }
         SendMessage answer = new SendMessage();
-        StringBuilder messageTextBuilder = new StringBuilder("inline Hello");
+        StringBuilder messageTextBuilder = new StringBuilder("inline answer");
         answer.setChatId(chat.getId().toString());
         answer.setText(messageTextBuilder.toString());
-        answer.setReplyMarkup(getInlineKeyboardMarkup(buttonNumber));
+        answer.setReplyMarkup(getInlineKeyboardMarkup(arguments));
         try {
             absSender.execute(answer);
         } catch (TelegramApiException e) {

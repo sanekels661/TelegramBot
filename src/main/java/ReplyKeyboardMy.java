@@ -11,13 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReplyKeyboardMy extends BotCommand {
-    /**
-     * Construct a command
-     *
-     * @param commandIdentifier the unique identifier of this command (e.g. the command string to
-     * enter into chat)
-     * @param description       the description of this command
-     */
+
     private static final String commandIdentifier = "update_buttons";
     private static final String description = "yes, sir!";
 

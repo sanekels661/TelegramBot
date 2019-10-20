@@ -18,13 +18,7 @@ import java.util.List;
 
 
 public class FirstCommand extends BotCommand {
-    /**
-     * Construct a command
-     *
-     * @param commandIdentifier the unique identifier of this command (e.g. the command string to
-     *                          enter into chat)
-     * @param description       the description of this command
-     */
+
     private static final String commandIdentifier = "hello_command";
     private static final String description = "yes, sir!";
 
@@ -48,7 +42,6 @@ public class FirstCommand extends BotCommand {
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
         answer.setText(messageTextBuilder.toString());
-        //answer.setReplyMarkup(getKeyboard());
 
         try {
             absSender.execute(answer);

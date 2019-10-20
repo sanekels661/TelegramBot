@@ -5,8 +5,6 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import org.telegram.telegrambots.meta.generics.BotOptions;
-
 public class Main {
     public static void main(String[] args) {
         ApiContextInitializer.init();
@@ -16,7 +14,7 @@ public class Main {
 //            botOptions.setProxyHost("34.67.53.141");
 //            botOptions.setProxyPort(8080);
 //            botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
-            telegramBotsApi.registerBot(new telegramBotClass(botOptions));
+            telegramBotsApi.registerBot(new TelegramBotClass(botOptions));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
