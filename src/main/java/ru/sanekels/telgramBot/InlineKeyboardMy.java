@@ -1,4 +1,5 @@
 package ru.sanekels.telgramBot;
+
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -52,14 +53,12 @@ public class InlineKeyboardMy extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         SendMessage answer = new SendMessage();
-        StringBuilder messageTextBuilder;
         if (arguments != null && arguments.length > 0) {
-            messageTextBuilder = new StringBuilder("inline answer");
+            answer.setText("inline answer");
         } else {
-            messageTextBuilder = new StringBuilder("inline examples");
+            answer.setText("inline examples");
         }
         answer.setChatId(chat.getId().toString());
-        answer.setText(messageTextBuilder.toString());
         answer.setReplyMarkup(getInlineKeyboardMarkup(arguments));
         try {
             absSender.execute(answer);
