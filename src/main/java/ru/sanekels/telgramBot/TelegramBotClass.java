@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TelegramBotClass extends TelegramLongPollingCommandBot {
     private static final String BOT_USERNAME = "SanekEls661Bot";
-    private static final String BOT_TOKEN = "833904710:AAFpe3m6_QOBQa-NQuuCV77BvgEriqzb4JU";
+    private static final String BOT_TOKEN = System.getenv("BOT_TOKEN_FIRST");
 
     TelegramBotClass(DefaultBotOptions botOptions) {
         super(BOT_USERNAME);
